@@ -1,0 +1,384 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+}
+
+.avatar-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.robot {
+    width: 120px;
+    height: 160px;
+    position: relative;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
+    margin-bottom: 10px;
+}
+
+.robot-image {
+    width: 100%;
+    height: 100%;
+}
+
+.robot.talking {
+    animation: subtle-bounce 1s infinite alternate;
+}
+
+@keyframes subtle-bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Add glow effect to the robot when talking */
+.robot.talking #avatar-body {
+    filter: drop-shadow(0 0 5px rgba(93, 173, 226, 0.5));
+}
+
+/* Enhance eye animations */
+#left-eye ellipse, #right-eye ellipse {
+    transition: all 0.3s ease;
+}
+
+.robot.talking #left-eye ellipse:first-child,
+.robot.talking #right-eye ellipse:first-child {
+    animation: eye-pulse 2s infinite alternate;
+}
+
+@keyframes eye-pulse {
+    0% {
+        fill-opacity: 0.8;
+    }
+    100% {
+        fill-opacity: 1;
+        rx: 14px;
+    }
+}
+
+.text-sections-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.text-section {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.text-section.active-section {
+    box-shadow: 0 4px 12px rgba(78, 127, 255, 0.3);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+.text-section:first-child.active-section .section-title {
+    background-color: #3a6bff;
+}
+
+.text-section:last-child.active-section .section-title {
+    background-color: #ff7e3a;
+}
+
+.section-title {
+    margin: 0;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: white;
+    font-weight: 600;
+    background-color: #4e7fff;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.text-display-container {
+    background-color: #f8f9fa;
+    padding: 15px;
+    max-height: 120px;
+    min-height: 60px;
+    overflow-y: auto;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.text-display {
+    line-height: 1.5;
+    color: #333;
+}
+
+.word {
+    cursor: pointer;
+    padding: 2px 4px;
+    margin: 0 1px;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.word:hover {
+    background-color: #e9ecef;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.word.highlight {
+    background-color: #cfe8ff;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(74, 144, 226, 0.3);
+}
+
+#input-text-display .word.highlight {
+    background-color: #cfe8ff;
+}
+
+#translated-text-display .word.highlight {
+    background-color: #ffe8cf;
+}
+
+.info-message {
+    background-color: #e8f4ff;
+    border-left: 4px solid #4a90e2;
+    padding: 10px 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+    font-style: italic;
+    color: #2c3e50;
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.loading-message {
+    background-color: #fff8e8;
+    border-left: 4px solid #ffb74d;
+    padding: 10px 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+    font-style: italic;
+    color: #2c3e50;
+    text-align: center;
+    animation: pulse 1.5s infinite ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-message::after {
+    content: "...";
+    animation: loadingDots 1.5s infinite;
+    width: 24px;
+    text-align: left;
+    display: inline-block;
+    margin-left: 4px;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+@keyframes loadingDots {
+    0% { content: "."   ; }
+    33% { content: ".."  ; }
+    66% { content: "..." ; }
+    100% { content: "."   ; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-container {
+    margin-top: 20px;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+}
+
+#user-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    resize: none;
+    font-family: inherit;
+    font-size: 16px;
+    height: 40px;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+#user-input:focus {
+    outline: none;
+    border-color: #4e7fff;
+    box-shadow: 0 2px 8px rgba(78, 127, 255, 0.15);
+}
+
+#send-btn {
+    background-color: #4e7fff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(78, 127, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+}
+
+#send-btn:hover {
+    background-color: #3a66cc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(78, 127, 255, 0.3);
+}
+
+#send-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(78, 127, 255, 0.2);
+}
+
+/* Controls styling */
+.controls {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-group label {
+    min-width: 100px;
+    font-weight: bold;
+}
+
+.control-button {
+    padding: 8px 15px;
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.control-button:hover {
+    background-color: #d0d0d0;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.control-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.control-button.active {
+    background-color: #4a90e2;
+    color: white;
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.control-button.active:hover {
+    background-color: #3a80d2;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.4);
+}
+
+.voice-selector {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.tooltip {
+    width: 100%;
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    font-style: italic;
+    gap: 10px;
+}
+
+.voice-selector label {
+    min-width: 100px;
+    font-weight: bold;
+}
+
+.voice-selector select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+    flex-grow: 1;
+    max-width: 200px;
+}
+
+/* Animation for the robot's arms */
+.arm-wave {
+    animation: wave 1s infinite alternate;
+}
+
+@keyframes wave {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(15deg);
+    }
+}
