@@ -10,7 +10,7 @@ const PORT = 3000;
 app.use(cors());
 
 // Serve static files from the current directory
-app.use(express.static('.'));
+app.use(express.static(__dirname));
 
 // Parse JSON request bodies
 app.use(express.json());
