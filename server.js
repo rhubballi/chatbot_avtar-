@@ -35,7 +35,7 @@ app.post('/api/speak', (req, res) => {
     const outputPath = path.join(audioDir, filename);
     
     // Command to run Python script with gTTS
-    const command = `python -c "from gtts import gTTS; tts = gTTS('${text.replace(/'/g, "\'")}'.strip(), lang='${lang}'); tts.save(r'${outputPath.replace(/\\/g, '\\\\')}')"`;;
+    const command = `python3 -c "from gtts import gTTS; tts = gTTS('${text.replace(/'/g, "\'")}'.strip(), lang='${lang}'); tts.save(r'${outputPath.replace(/\\/g, '\\\\')}')"`;;
     
     exec(command, (error, stdout, stderr) => {
         if (error) {
@@ -147,7 +147,7 @@ except Exception as e:
     fs.writeFileSync(tempScriptPath, pythonScript);
     
     // Execute the Python script with UTF-8 encoding
-    const command = `python "${tempScriptPath}"`;
+    const command = `python3 "${tempScriptPath}"`;
     
     console.log('Executing translation script...');
     
